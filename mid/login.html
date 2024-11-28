@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://mindfuldesignconsulting.com/wp-content/uploads/2021/08/Women-Clothing-Boutique-Store-Interior.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: 0;
+        }
+
+        .container {
+            background: #F3CFC6;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 93%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .link {
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="auth-container">
+        <h2 id="form-title">Login</h2>
+        <div class="error" id="error-message"></div>
+        <form id="auth-form">
+            <input type="text" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" style="display: none;">
+            <button type="submit">Login</button>
+        </form>
+        <span class="link" id="toggle-link">Need an account? Sign up</span>
+    </div>
+
+    <script>
+        const authContainer = document.getElementById('auth-container');
+        const formTitle = document.getElementById('form-title');
+        const errorMessage = document.getElementById('error-message');
+        const toggleLink = document.getElementById('toggle-link');
+        const authForm = document.getElementById('auth-form');
+        const confirmPasswordField = document.getElementById('confirm-password');
+
+        toggleLink.addEventListener('click', () => {
+            if (formTitle.textContent === 'Login') {
+                formTitle.textContent = 'Sign Up';
+                authForm.querySelector('button').textContent = 'Sign Up';
+                confirmPasswordField.style.display = 'block';
+                toggleLink.textContent = 'Already have an account? Login';
+                errorMessage.textContent = '';
+                document.getElementById('email').placeholder = 'Email (must contain @gmail.com)';
+                document.getElementById('password').placeholder = 'Password (8+ characters, special character required)';
+            } else {
+                formTitle.textContent = 'Login';
+                authForm.querySelector('button').textContent = 'Login';
+                confirmPasswordField.style.display = 'none';
+                toggleLink.textContent = 'Need an account? Sign up';
+                errorMessage.textContent = '';
+                document.getElementById('email').placeholder = 'Email';
+                document.getElementById('password').placeholder = 'Password';
+            }
+        });
+
+        authForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = confirmPasswordField.style.display === 'block' ? confirmPasswordField.value : '';
+
+            if (formTitle.textContent === 'Sign Up') {
+                // Sign-up validation
+                if (!validateGmailEmail(email)) {
+                    errorMessage.textContent = 'Please enter a valid email address ending with @gmail.com';
+                    return;
+                }
+                if (password.length < 8) {
+                    errorMessage.textContent = 'Password must be at least 8 characters long';
+                    return;
+                }
+                if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                    errorMessage.textContent = 'Password must contain a special character';
+                    return;
+                }
+                if (password !== confirmPassword) {
+                    errorMessage.textContent = 'Passwords do not match';
+                    return;
+                }
+                if (localStorage.getItem(email)) {
+                    errorMessage.textContent = 'Email already exists';
+                } else {
+                    localStorage.setItem(email, password);
+                    alert('Signup successful! You can now log in.');
+                    toggleLink.click();
+                }
+            } else {
+                // Login validation
+                const storedPassword = localStorage.getItem(email);
+                if (storedPassword && storedPassword === password) {
+                    window.location.href = "mainpage.html"; // Redirect to main page on successful login
+                    errorMessage.textContent = '';
+                } else {
+                    errorMessage.textContent = 'Invalid email or password';
+                }
+            }
+        });
+
+        function validateGmailEmail(email) {
+            const re = /^[^\s@]+@gmail\.com$/;
+            return re.test(String(email).toLowerCase());
+        }
+    </script>
+</body>
+</html>

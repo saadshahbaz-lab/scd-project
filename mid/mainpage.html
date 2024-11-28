@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapray Kraftry</title>
+    <style>
+        body {
+            font-family: Franklin Gothic Medium;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://undsgn.com/wp-content/uploads/2018/04/ltotbngnzzu.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        h1 {
+            font-size: 40px;
+            color: rgb(12, 11, 11);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .center-box {
+            background: rgba(92, 90, 90, 0.6); /* Adjust the alpha for transparency */
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Darker shadow for better contrast */
+            text-align: center;
+            max-width: 450px;
+            width: 80%; /* Changed to a percentage for responsiveness */
+        }
+        .navbar {
+            position: absolute;
+            top: 20px;
+            left: 60px;
+            display: flex;
+            gap: 25px;
+        }
+        .navbar a {
+            color: white; /* Changed to white */
+            text-decoration: none;
+            font-size: 20px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .subtitle {
+            font-size: 20px;
+            color: black;
+            margin: 10px 0;
+        }
+        .start-button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            background-color: #a7a3a3;
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+        .start-button:hover {
+            background-color: #9c9696;
+        }
+        .gallery {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .gallery-item {
+            text-align: center;
+            margin: 10px;
+        }
+        .gallery img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 5px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .gallery img.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .gallery-item div {
+            color: white; /* Sets the caption text to white */
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="mainpage.html">Home</a>
+    <a href="cloths.html">Cloths</a>
+    <a href="watches.html">Watches</a>
+    <a href="perfumes.html">Perfumes</a>
+    <a href="contactus.html">Contact us</a>
+</div>
+
+<div class="center-box">
+    <h1>Kapray Kraftry</h1>
+    <div class="subtitle">You will find the best clothes and accessories here</div>
+    <button class="start-button" onclick="startBrowsing()">Start Browsing</button>
+</div>
+
+<div class="gallery" id="gallery">
+    <div class="gallery-item">
+        <a href="cloths.html">
+            <img src="https://www.gulahmedshop.com/media/wysiwyg/2024/03_category_icons/03_mens_clothes/07_06/shop_all.webp?format=jpg" alt="Men">
+            <div>Men's Clothing</div>
+        </a>
+    </div>
+    <div class="gallery-item">
+        <a href="jackets.html">
+        <img src="https://thursdayboots.com/cdn/shop/products/1024x1024-Mens-Jackets-Denim-Trucker-WashedIndigo-010423-1_grande.jpg?v=1673282143" alt="Clothing 2">
+        <div>Denim Jacket</div>
+    </a>
+    </div>
+    <div class="gallery-item">
+        <a href="ladis.html">
+        <img src="https://www.faisalabadfabricstore.com/wp-content/uploads/2023/05/2pcs-R-4.jpg" alt="Clothing 3">
+        <div>Stylish Women Clothes</div>
+    </a>
+    </div>
+    <div class="gallery-item">
+        <a href="watches.html">
+        <img src="https://currenwatches.com.pk/cdn/shop/files/S16a1d22aca9244a19944aad7e16f364fh_1445x.jpg?v=1708428048" alt="Clothing 4">
+        <div>Elegant Watch</div>
+    </a>
+    </div>
+    <div class="gallery-item">
+        <a href="perfumes.html">
+        <img src="https://irfe.com/wp-content/uploads/2024/04/A-collection-of-the-expensive-perfumes-for-women-displayed-on-a-luxurious-vanity-1300x743.jpg" alt="Clothing 5">
+        <div>Perfumes</div>
+    </a>
+    </div>
+</div>
+
+<script>
+    function startBrowsing() {
+        const gallery = document.getElementById('gallery');
+        gallery.style.opacity = 1;
+
+        const images = gallery.querySelectorAll('img');
+        images.forEach((img, index) => {
+            setTimeout(() => {
+                img.classList.add('show');
+            }, index * 200);
+        });
+    }
+</script>
+
+</body>
+</html>
