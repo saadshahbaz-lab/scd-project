@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Kapray Kraftry</title>
+    <style>
+        body {
+            font-family: Franklin Gothic Medium;
+            margin: 0;
+            padding: 20px;
+            background-image: url('https://undsgn.com/wp-content/uploads/2018/04/ltotbngnzzu.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            display: flex;
+            gap: 25px;
+            z-index: 1000;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
+        }
+        .question {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #e0e0e0;
+        }
+        .answer {
+            font-size: 18px;
+            color: #d3d3d3;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .chatbox {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            color: white;
+        }
+        .chat-input-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .chat-input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        .chat-submit {
+            background-color: #2196F3;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="mainpage.html">Home</a>
+    <a href="cloths.html">Cloths</a>
+    <a href="watches.html">Watches</a>
+    <a href="perfumes.html">Perfumes</a>
+    <a href="contactus.html">Contact us</a>
+    <a href="faq.html">FAQ</a>
+</div>
+
+<div class="container">
+    <h1>Frequently Asked Questions</h1>
+
+    <div class="faq">
+        <div class="question">1. How to sign up? </div>
+        <div class="question">2. How to log in?</div>
+        <div class="question">3. How to go to the cloths page?</div>
+        <div class="question">4. How to add to the cart?</div>
+        <div class="question">5. How to checkout?</div>
+        
+</div>
+
+<!-- Chatbot Section -->
+<div class="chatbot-container">
+    <div class="chatbox" id="chatbox"></div>
+    <div class="chat-input-container">
+        <input type="text" class="chat-input" id="user-input" placeholder="Ask a question..." />
+        <button class="chat-submit" onclick="handleChat()">Send</button>
+    </div>
+</div>
+
+<script>
+    // Store FAQ Q&A in localStorage if not already stored
+    if (!localStorage.getItem("faqData")) {
+        const faqData = {
+            "How to sign up?": "Click on the 'Sign Up' button located at the top right corner of the homepage. Fill out the registration form with your details and click 'Submit' to create your account.",
+            "How to log in?": "Click on the 'Login' button at the top right corner of the homepage. Enter your registered email and password, then click 'Login' to access your account.",
+            "How to go to the cloths page?": "You can navigate to the cloths page by clicking on the 'Cloths' link in the navigation bar at the top of the website.",
+            "How to add to the cart?": "Go to the product page, choose the item you want, and click the 'Add to Cart' button. You can view your cart at any time by clicking on the cart icon in the navigation bar.",
+            "How to checkout?": "After adding items to your cart, click on the cart icon and then the 'Checkout' button. Fill in your shipping and payment details and confirm your order to complete the checkout process."
+        };
+        localStorage.setItem("faqData", JSON.stringify(faqData));
+    }
+
+    const faq = JSON.parse(localStorage.getItem("faqData"));
+
+    function handleChat() {
+        const userInput = document.getElementById("user-input").value.trim();
+        if (userInput === "") return;
+
+        const chatbox = document.getElementById("chatbox");
+
+        // Display user's question
+        const userMessage = document.createElement("div");
+        userMessage.classList.add("chat-message");
+        userMessage.style.color = "#2196F3";
+        userMessage.textContent = `You: ${userInput}`;
+        chatbox.appendChild(userMessage);
+
+        // Get the bot's response
+        const response = faq[userInput] || "Sorry, I didn't understand that. Can you please rephrase?";
+        
+        // Display bot's response
+        const botMessage = document.createElement("div");
+        botMessage.classList.add("chat-message");
+        botMessage.style.color = "#d3d3d3";
+        botMessage.textContent = `Bot: ${response}`;
+        chatbox.appendChild(botMessage);
+
+        // Clear the input field
+        document.getElementById("user-input").value = "";
+
+        // Scroll to the bottom of the chatbox
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+</script>
+
+</body>
+</html>

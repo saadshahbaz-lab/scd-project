@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Kapray Kraftry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://undsgn.com/wp-content/uploads/2018/04/ltotbngnzzu.jpg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        .navbar {
+            width: 100%;
+            background-color: rgba(51, 51, 51, 0.8); /* Semi-transparent navbar */
+            color: white;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .cart-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            color: white;
+        }
+        table th {
+            background-color: rgba(51, 51, 51, 0.9);
+        }
+        .remove-button {
+            padding: 5px 10px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .remove-button:hover {
+            background-color: #c9302c;
+        }
+        .total {
+            text-align: right;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .empty-cart {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="mainpage.html">Home</a>
+    <a href="cloths.html">Cloths</a>
+    <a href="watches.html">Watches</a>
+    <a href="perfumes.html">Perfumes</a>
+    <a href="contactus.html">Contact us</a>
+    <a href="cart.html">Cart</a>
+</div>
+
+<h1>Your Cart</h1>
+
+<div class="cart-container" id="cart-container">
+    <table id="cart-table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price (Rs)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Cart items will be dynamically added here -->
+        </tbody>
+    </table>
+    <div class="total" id="cart-total"></div>
+    <div class="empty-cart" id="empty-cart-message" style="display: none;">Your cart is empty!</div>
+    <button onclick="goToCheckout()">Proceed to Checkout</button>
+</div>
+
+<script>
+    function loadCart() {
+        // Get cart from localStorage
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartTable = document.getElementById('cart-table').querySelector('tbody');
+        const cartTotal = document.getElementById('cart-total');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+
+        cartTable.innerHTML = ''; // Clear the table
+        let total = 0;
+
+        if (cart.length > 0) {
+            cart.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.price}</td>
+                    <td><button class="remove-button" onclick="removeFromCart(${index})">Remove</button></td>
+                `;
+                cartTable.appendChild(row);
+                total += item.price;
+            });
+            cartTotal.textContent = `Total: Rs ${total}`;
+            localStorage.setItem('cartTotal', total);  // Store the total cart amount in localStorage
+            cartTotal.style.display = 'block';
+            emptyCartMessage.style.display = 'none';
+        } else {
+            cartTotal.style.display = 'none';
+            emptyCartMessage.style.display = 'block';
+        }
+    }
+
+    function removeFromCart(index) {
+        // Get cart from localStorage
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Remove the item at the specified index
+        cart.splice(index, 1);
+
+        // Update localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Reload the cart
+        loadCart();
+    }
+
+    function goToCheckout() {
+        // Redirect to checkout page
+        window.location.href = 'checkout.html';
+    }
+
+    // Load the cart when the page is loaded
+    window.onload = loadCart;
+</script>
+
+</body>
+</html>
